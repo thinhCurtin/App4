@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:App4"
+             x:Class="App4.MainPage">
+
+    <StackLayout VerticalOptions="Center"
+                 Margin="20,0,20,0">
+        <Entry x:Name="emailEntry"
+               Placeholder="Email address"
+               TextColor="{StaticResource blueColor}"
+               Keyboard="Email"/>
+        <Entry x:Name="passwordEntry"
+               Placeholder="Password"
+               TextColor="{StaticResource blueColor}"
+               IsPassword="True"/>
+        <Button x:Name="LoginButton"
+                Text="Login"
+                Margin="0,50,0,0"
+                Clicked="LoginButton_Clicked"
+                Style="{StaticResource normalButton}"/>
+
+    </StackLayout>
+
+</ContentPage>
