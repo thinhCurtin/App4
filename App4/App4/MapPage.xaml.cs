@@ -10,6 +10,8 @@ using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using Plugin.Geolocator;
 using Plugin.Geolocator.Abstractions;
+using App4.Model;
+using Xamarin.Forms.Maps;
 //using Xamarin.Forms.Maps;
 namespace App4
 {
@@ -55,6 +57,7 @@ namespace App4
             catch(Exception ex)
             {
                 await DisplayAlert("Error", ex.Message, "OK");
+                //GeolocationException
             }
         }
 
@@ -69,6 +72,40 @@ namespace App4
                 await locator.StartListeningAsync(TimeSpan.Zero, 100);
             }
                 GetLocation();
+
+            using (SQLite.SQLiteConnection connection = new SQLite.SQLiteConnection(App.DatabaseLocation))
+            {
+                connection.CreateTable<Post>();
+                var posts = connection.Table<Post>().ToList();
+
+                DisplayInMap(posts);
+            }
+        }
+
+        private void DisplayInMap(List<Post> posts)
+        {
+            
+                foreach (var post in posts)
+                {
+                try
+                {
+                    var position = new Xamarin.Forms.Maps.Position(post.Latitude, post.Longtitude);
+                    var pin = new Pin()
+                    {
+                        Type = PinType.SavedPin,
+                        Position = position,
+                        Label = post.VenueName,
+                        Address = post.Address
+                    };
+
+                    locationsMap.Pins.Add(pin);
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+            
         }
 
         protected override void OnDisappearing()
@@ -93,7 +130,7 @@ namespace App4
             }
         }
 
-        private void MoveMap(Position position)
+        private void MoveMap(Plugin.Geolocator.Abstractions.Position position)
         {
             var center = new Xamarin.Forms.Maps.Position(position.Latitude, position.Longitude);
             var span = new Xamarin.Forms.Maps.MapSpan(center, 1, 1);

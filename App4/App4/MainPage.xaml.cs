@@ -12,6 +12,9 @@ namespace App4
         public MainPage()
         {
             InitializeComponent();
+            var assembly = typeof(MainPage);
+            iconImage.Source = ImageSource.FromResource("App4.Assets.Images.AWT-Plane.png", assembly);
+
         }
 
         private void LoginButton_Clicked(object sender, EventArgs e)
